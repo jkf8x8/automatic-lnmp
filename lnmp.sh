@@ -59,12 +59,13 @@ yum makecache && echo "生成yum缓存"
 
 
 # install nginx
-echo '安装nginx'
+echo '安装nginx###########################'
 yum -y install nginx
-echo 'nginx完毕'
+echo 'nginx完毕###########################'
 # configure nginx
-echo '配置nginx支持 php'
+echo '配置nginx支持 php###################'
 mv /etc/nginx/conf.d/default.conf  /etc/nginx/conf.d/default.conf.bak
+cd /etc/nginx/conf.d
 cat >default.conf <<EOF
 server {
     listen       80;
@@ -103,12 +104,12 @@ yum -y install php php-cli php-fpm php-mysqlnd php-zip php-devel php-gd php-mcry
 
 # boot
 systemctl enable nginx
-systemctl enable php-fmp
+systemctl enable php-fpm
 systemctl enable mariadb
 
 # close firewalld
 systemctl stop firewalld
-systemctl disable mariadb
+systemctl disable firewalld
 
 #mysql 
 #mysql_secure_installation

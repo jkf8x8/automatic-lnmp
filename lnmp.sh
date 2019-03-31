@@ -1,4 +1,19 @@
 #! /bin/sh
+#更新yum镜像
+echo '是否换为国内镜像(y/n)'
+read action
+while( [ $action != 'y' ] && [ $action != 'n' ])
+do
+  echo '看清楚了兄弟'
+  echo '是否换为国内镜像(y/n)'
+  read action
+done
+
+if [ $action = 'y' ]
+then
+ mv /etc/yum.repos.d/CentOS-Base.repo /etc/yum.repos.d/CentOS-Base.repo.backup
+ curl -o /etc/yum.repos.d/CentOS-Base.repo http://mirrors.aliyun.com/repo/Centos-7.repo
+fi
 
 # make nginx.repo ########################
 if [ -e '/etc/yum.repos.d/nginx.repo' ]
@@ -36,12 +51,46 @@ gpgcheck=1
 EOF
 fi
 
-yum -y clean all && echo "yum clean"
+yum -y clean all && echo "清除yum缓存"
 
-yum makecache && echo "huan cun success"
+yum makecache && echo "生成yum缓存"
+
+yum -y update&& echo "资源更新完毕"
 
 # install nginx
+echo '安装nginx'
 yum -y install nginx
+echo 'nginx完毕'
+# configure nginx
+echo '配置nginx支持 php'
+mv /etc/nginx/conf.d/default.conf  /etc/nginx/conf.d/default.conf.bak
+cat >default.conf <<EOF
+server {
+    listen       80;
+    server_name  localhost;
+
+    location / {
+        root   /usr/share/nginx/html;
+        index  index.html index.htm index.php;
+    }
+
+    error_page   500 502 503 504  /50x.html;
+    location = /50x.html {
+        root   /usr/share/nginx/html;
+    }
+
+    location ~ \.php\$ {
+        root           /usr/share/nginx/html;
+        fastcgi_pass   127.0.0.1:9000;
+        fastcgi_index  index.php;
+        fastcgi_param  SCRIPT_FILENAME  \$document_root\$fastcgi_script_name;
+        include        fastcgi_params;
+    }
+}
+EOF
+
+
+
 # install mariadb
 yum -y install MariaDB-server MariaDB-client
 #install php7.3

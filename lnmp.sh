@@ -91,6 +91,12 @@ server {
 }
 EOF
 
+#make index.php
+cd /usr/share/nginx/html
+cat >index.php <<EOF
+<?php
+echo phpinfo();
+EOF
 
 
 # install mariadb

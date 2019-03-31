@@ -13,6 +13,7 @@ if [ $action = 'y' ]
 then
  mv /etc/yum.repos.d/CentOS-Base.repo /etc/yum.repos.d/CentOS-Base.repo.backup
  curl -o /etc/yum.repos.d/CentOS-Base.repo http://mirrors.aliyun.com/repo/Centos-7.repo
+ yum -y update&& echo "资源更新完毕"
 fi
 
 # make nginx.repo ########################
@@ -55,7 +56,7 @@ yum -y clean all && echo "清除yum缓存"
 
 yum makecache && echo "生成yum缓存"
 
-yum -y update&& echo "资源更新完毕"
+
 
 # install nginx
 echo '安装nginx'

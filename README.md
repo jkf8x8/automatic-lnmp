@@ -15,3 +15,4 @@
 >* http://down.360safe.com/se/360se10.0.1764.0.exe
 >* http://issuecdn.baidupcs.com/issue/netdisk/yunguanjia/BaiduNetdisk_6.7.2.16.exe
 >* https://dl.pstmn.io/download/latest/win64
+>* https://nchc.dl.sourceforge.net/project/wampserver/WampServer%203/WampServer%203.0.0/wampserver3.1.7_x64.exe

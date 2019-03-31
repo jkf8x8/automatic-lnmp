@@ -4,6 +4,7 @@
 if [ -e '/etc/yum.repos.d/nginx.repo' ]
 then
   echo 'nginx.repo is already'
+  exit
 else
   cd /etc/yum.repos.d
 cat >nginx.repo <<EOF
@@ -18,7 +19,8 @@ fi
 # make mariadb.repo #######################
 if [ -e '/etc/yum.repos.d/MariaDB.repo' ]
 then 
- ehco 'MariaDB.repo is already' 
+ ehco 'MariaDB.repo is already'
+ exit
 else
  cd /etc/yum.repos.d
 cat > MariaDB.repo <<EOF
@@ -43,7 +45,9 @@ yum -y install nginx
 # install mariadb
 yum -y install MariaDB-server MariaDB-client
 #install php7.3
+yum -y install http://rpms.remirepo.net/enterprise/remi-release-7.rpm 
 yum -y install epel-release yum-utils
+yum-config-manager --disable remi-php54
 yum-config-manager --enable remi-php73
 yum -y install php php-cli php-fpm php-mysqlnd php-zip php-devel php-gd php-mcrypt php-mbstring php-curl php-xml php-pear php-bcmath php-json
 
@@ -55,3 +59,6 @@ systemctl enable mariadb
 # close firewalld
 systemctl stop firewalld
 systemctl disable mariadb
+
+#mysql 
+#mysql_secure_installation
